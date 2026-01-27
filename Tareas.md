@@ -1,5 +1,6 @@
 Desde la base de datos que se registre la fecha ingreso automaticamente en el libro sale en la pagina 57 apartado 4.2.2 
-
+Borrar el ficher de ccontroller login resgister user
+al insertar edad fijarme con el formato de guardado
 
 El frontend no se como lo voy hacer si con ajax o .fetch o angular por que no se el tiempo que tengo y tengo una duda 
 

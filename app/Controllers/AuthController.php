@@ -13,7 +13,7 @@ class AuthController extends ResourceController
 
     public function register()
     {
-        $data = $this->request->getJSON(true) ?? [];
+        $data = $this->request->getJSON(true) ?? $this->request->getPost();
 
         $email    = $data['email'] ?? null;
         $password = $data['password'] ?? null;
@@ -58,7 +58,7 @@ class AuthController extends ResourceController
 
     public function login()
     {
-        $data = $this->request->getJSON(true) ?? [];
+        $data = $this->request->getJSON(true) ?? $this->request->getPost();
 
         $email    = $data['email'] ?? null;
         $password = $data['password'] ?? null;
