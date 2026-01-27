@@ -13,15 +13,24 @@ class AuthController extends ResourceController
 
     public function register()
     {
-        $data = $this->request->getJSON(true) ?? $this->request->getPost();
+        $data = $this->request->getJSON(true);
+        if (!is_array($data)) {
+            $data = $this->request->getPost();
+        }
 
-        $email    = $data['email'] ?? null;
+
+        $email = $data['email'] ?? null;
         $password = $data['password'] ?? null;
 
-        if (! $email || ! $password) {
+        if (!$email || !$password) {
             return $this->failValidationErrors([
                 'email' => 'El email es obligatorio.',
                 'password' => 'La contraseña es obligatoria.',
+            ]);
+        }
+        if (strlen(trim($password)) < 6) {
+            return $this->failValidationErrors([
+                'password' => 'La contraseña debe tener al menos 6 caracteres.',
             ]);
         }
 
@@ -32,18 +41,18 @@ class AuthController extends ResourceController
         }
 
         $insertData = [
-            'email'      => $email,
-            'password'   => password_hash($password, PASSWORD_BCRYPT),
-            'role'       => $data['role'] ?? 'user',
+            'email' => $email,
+            'password' => password_hash($password, PASSWORD_BCRYPT),
+            'role' => $data['role'] ?? 'user',
             'first_name' => $data['first_name'] ?? '',
-            'last_name'  => $data['last_name'] ?? '',
-            'phone'      => $data['phone'] ?? '',
+            'last_name' => $data['last_name'] ?? '',
+            'phone' => $data['phone'] ?? '',
             'birth_date' => $data['birth_date'] ?? null,
             'created_at' => date('Y-m-d H:i:s'),
         ];
 
         $id = $users->insert($insertData);
-        if (! $id) {
+        if (!$id) {
             return $this->failValidationErrors($users->errors());
         }
 
@@ -52,7 +61,7 @@ class AuthController extends ResourceController
 
         return $this->respondCreated([
             'message' => 'Usuario registrado correctamente.',
-            'user'    => $insertData,
+            'user' => $insertData,
         ]);
     }
 
@@ -60,10 +69,10 @@ class AuthController extends ResourceController
     {
         $data = $this->request->getJSON(true) ?? $this->request->getPost();
 
-        $email    = $data['email'] ?? null;
+        $email = $data['email'] ?? null;
         $password = $data['password'] ?? null;
 
-        if (! $email || ! $password) {
+        if (!$email || !$password) {
             return $this->failValidationErrors([
                 'email' => 'El email es obligatorio.',
                 'password' => 'La contraseña es obligatoria.',
@@ -71,20 +80,20 @@ class AuthController extends ResourceController
         }
 
         $users = new UsersModel();
-        $user  = $users->where('email', $email)->first();
+        $user = $users->where('email', $email)->first();
 
-        if (! $user || ! password_verify($password, $user['password'])) {
+        if (!$user || !password_verify($password, $user['password'])) {
             return $this->failUnauthorized('Credenciales incorrectas.');
         }
 
         $payload = [
-            'iss'   => 'elecpress',
-            'aud'   => 'elecpress',
-            'iat'   => time(),
-            'exp'   => time() + 3600,
-            'sub'   => $user['id'],
+            'iss' => 'elecpress',
+            'aud' => 'elecpress',
+            'iat' => time(),
+            'exp' => time() + 3600,
+            'sub' => $user['id'],
             'email' => $user['email'],
-            'role'  => $user['role'] ?? 'user',
+            'role' => $user['role'] ?? 'user',
         ];
 
         $token = JWT::encode($payload, env('JWT_SECRET'), 'HS256');
@@ -93,14 +102,14 @@ class AuthController extends ResourceController
 
         return $this->respond([
             'token' => $token,
-            'user'  => $user,
+            'user' => $user,
         ]);
     }
 
     public function me()
     {
         $authHeader = $this->request->getHeaderLine('Authorization');
-        if (! preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+        if (!preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
             return $this->failUnauthorized('Token no proporcionado.');
         }
 
@@ -109,7 +118,7 @@ class AuthController extends ResourceController
             $users = new UsersModel();
             $user = $users->find((int) $decoded->sub);
 
-            if (! $user) {
+            if (!$user) {
                 return $this->failNotFound('Usuario no encontrado.');
             }
 

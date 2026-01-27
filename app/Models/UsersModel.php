@@ -13,7 +13,7 @@ class UsersModel extends Model
         'role'  => 'required',
         'first_name' => 'required', 
         'last_name' => 'required', 
-        'password'  => 'required|length < 6', 
+        'password'  => 'required|min_length[6]', 
         'email'  => 'required|valid_email', 
         'birth_date'  => 'required', 
         'created_at'  => 'required', 
