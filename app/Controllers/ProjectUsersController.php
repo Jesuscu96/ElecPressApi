@@ -4,15 +4,15 @@ namespace App\Controllers;
 
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
-use App\Models\AssignedMaterialsModel;
+use App\Models\ProjectUsersModel;
 
 //use function PHPUnit\Framework\returnArgument;
 
-class AssignedMaterialsController extends ResourceController
+class ProjectUsersController extends ResourceController
 {
     //protected $modelName = "App\Models\A_projectsModel";
 
-    protected $modelName = AssignedMaterialsModel::class;
+    protected $modelName = ProjectUsersModel::class;
 
     protected $format = "json";
     /**
@@ -22,8 +22,8 @@ class AssignedMaterialsController extends ResourceController
      */
     public function index()
     {
-        /* $A_material = $this->model->findAll();
-        return $this->respond($A_material); */
+        /* $A_project = $this->model->findAll();
+        return $this->respond($A_project); */
         return $this->respond($this->model->getAllExpanded());
 
 
@@ -43,7 +43,7 @@ class AssignedMaterialsController extends ResourceController
         if ($row) {
             return $this->respond($row);
         }
-        return $this->failNotFound("Material asignado no encontrado");
+        return $this->failNotFound("Poryecto asignado no encontrado");
     }
 
 
@@ -58,7 +58,7 @@ class AssignedMaterialsController extends ResourceController
         $data = $this->request->getJSON(true);
 
         if ($this->model->insert($data)) {
-            return $this->respondCreated($data, 'Material asignado creado.');
+            return $this->respondCreated($data, 'Poryecto asignado creado.');
         }
 
         return $this->failValidationErrors($this->model->errors());
@@ -75,13 +75,13 @@ class AssignedMaterialsController extends ResourceController
      */
     public function update($id = null)
     {
-        $A_material = $this->model->find($id);
-        if (!$A_material) {
-            return $this->failNotFound('Material asignado no encontrado');
+        $A_project = $this->model->find($id);
+        if (!$A_project) {
+            return $this->failNotFound('Poryecto asignado no encontrado');
         }
         $data = $this->request->getJSON(true);
         if ($this->model->update($id, $data)) {
-            return $this->respondUpdated($data, 'Material asignado actualizado.');
+            return $this->respondUpdated($data, 'Poryecto asignado actualizado.');
         }
         return $this->failValidationErrors($this->model->errors());
     }
@@ -95,12 +95,12 @@ class AssignedMaterialsController extends ResourceController
      */
     public function delete($id = null)
     {
-        $A_material = $this->model->find($id);
-        if ($A_material) {
+        $A_project = $this->model->find($id);
+        if ($A_project) {
             $this->model->delete($id);
-            return $this->respondDeleted($A_material, 'Material asignado elimindo.');
+            return $this->respondDeleted($A_project, 'Poryecto asignado elimindo.');
         }
-        return $this->failNotFound('Material asignado no encontrado.');
+        return $this->failNotFound('Poryecto asignado no encontrado.');
 
     }
 }

@@ -4,15 +4,15 @@ namespace App\Controllers;
 
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
-use App\Models\AssignedProjectsModel;
+use App\Models\ProjectEquipmentModel;
 
 //use function PHPUnit\Framework\returnArgument;
 
-class AssignedProjectsController extends ResourceController
+class ProjectEquipmentController extends ResourceController
 {
-    //protected $modelName = "App\Models\A_projectsModel";
+    //protected $modelName = "App\Models\A_equipment$A_equipmentsModel";
 
-    protected $modelName = AssignedProjectsModel::class;
+    protected $modelName = ProjectEquipmentModel::class;
 
     protected $format = "json";
     /**
@@ -22,8 +22,8 @@ class AssignedProjectsController extends ResourceController
      */
     public function index()
     {
-        /* $A_project = $this->model->findAll();
-        return $this->respond($A_project); */
+        /* $A_equipment = $this->model->findAll();
+        return $this->respond($A_equipment); */
         return $this->respond($this->model->getAllExpanded());
 
 
@@ -43,7 +43,7 @@ class AssignedProjectsController extends ResourceController
         if ($row) {
             return $this->respond($row);
         }
-        return $this->failNotFound("Poryecto asignado no encontrado");
+        return $this->failNotFound("Equipamiento asignado no encontrado");
     }
 
 
@@ -58,7 +58,7 @@ class AssignedProjectsController extends ResourceController
         $data = $this->request->getJSON(true);
 
         if ($this->model->insert($data)) {
-            return $this->respondCreated($data, 'Poryecto asignado creado.');
+            return $this->respondCreated($data, 'Equipamiento asignado creado.');
         }
 
         return $this->failValidationErrors($this->model->errors());
@@ -75,13 +75,13 @@ class AssignedProjectsController extends ResourceController
      */
     public function update($id = null)
     {
-        $A_project = $this->model->find($id);
-        if (!$A_project) {
-            return $this->failNotFound('Poryecto asignado no encontrado');
+        $A_equipment = $this->model->find($id);
+        if (!$A_equipment) {
+            return $this->failNotFound('Equipamiento asignado no encontrado');
         }
         $data = $this->request->getJSON(true);
         if ($this->model->update($id, $data)) {
-            return $this->respondUpdated($data, 'Poryecto asignado actualizado.');
+            return $this->respondUpdated($data, 'Equipamiento asignado actualizado.');
         }
         return $this->failValidationErrors($this->model->errors());
     }
@@ -95,12 +95,12 @@ class AssignedProjectsController extends ResourceController
      */
     public function delete($id = null)
     {
-        $A_project = $this->model->find($id);
-        if ($A_project) {
+        $A_equipment = $this->model->find($id);
+        if ($A_equipment) {
             $this->model->delete($id);
-            return $this->respondDeleted($A_project, 'Poryecto asignado elimindo.');
+            return $this->respondDeleted($A_equipment, 'Equipamiento asignado elimindo.');
         }
-        return $this->failNotFound('Poryecto asignado no encontrado.');
+        return $this->failNotFound('Equipamiento asignado no encontrado.');
 
     }
 }

@@ -16,14 +16,21 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
     $routes->group('', ['filter' => 'jwt'], function($routes) {
 
         $routes->get('auth/me', 'AuthController::me');
+        
         $routes->resource('clients', ['controller' => 'ClientsController']);
         $routes->resource('materials', ['controller' => 'MaterialController']);
         $routes->resource('projects', ['controller' => 'ProjectsController']);
         $routes->resource('users', ['controller' => 'UsersController']);
         $routes->resource('equipment', ['controller' => 'EquipmentController']);
-        $routes->resource('assigned-projects', ['controller' => 'AssignedProjectsController']);
-        $routes->resource('assigned-materials', ['controller' => 'AssignedMaterialsController']);
-        $routes->resource('assigned-equipment', ['controller' => 'AssignedEquipmentController']);
+
+
+        $routes->resource('material-categories',  ['controller' => 'MaterialCategoriesController']);
+        $routes->resource('equipment-categories', ['controller' => 'EquipmentCategoriesController']);
+
+        
+        $routes->resource('project-users',      ['controller' => 'ProjectUsersController']);
+        $routes->resource('project-materials',  ['controller' => 'ProjectMaterialsController']);
+        $routes->resource('project-equipment',  ['controller' => 'ProjectEquipmentController']);
     });
 });
 

@@ -4,15 +4,15 @@ namespace App\Controllers;
 
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
-use App\Models\AssignedEquipmentModel;
+use App\Models\ProjectMaterialsModel;
 
 //use function PHPUnit\Framework\returnArgument;
 
-class AssignedEquipmentController extends ResourceController
+class ProjectMaterialsController extends ResourceController
 {
-    //protected $modelName = "App\Models\A_equipment$A_equipmentsModel";
+    //protected $modelName = "App\Models\A_projectsModel";
 
-    protected $modelName = AssignedEquipmentModel::class;
+    protected $modelName = ProjectMaterialsModel::class;
 
     protected $format = "json";
     /**
@@ -22,8 +22,8 @@ class AssignedEquipmentController extends ResourceController
      */
     public function index()
     {
-        /* $A_equipment = $this->model->findAll();
-        return $this->respond($A_equipment); */
+        /* $A_material = $this->model->findAll();
+        return $this->respond($A_material); */
         return $this->respond($this->model->getAllExpanded());
 
 
@@ -43,7 +43,7 @@ class AssignedEquipmentController extends ResourceController
         if ($row) {
             return $this->respond($row);
         }
-        return $this->failNotFound("Equipamiento asignado no encontrado");
+        return $this->failNotFound("Material asignado no encontrado");
     }
 
 
@@ -58,7 +58,7 @@ class AssignedEquipmentController extends ResourceController
         $data = $this->request->getJSON(true);
 
         if ($this->model->insert($data)) {
-            return $this->respondCreated($data, 'Equipamiento asignado creado.');
+            return $this->respondCreated($data, 'Material asignado creado.');
         }
 
         return $this->failValidationErrors($this->model->errors());
@@ -75,13 +75,13 @@ class AssignedEquipmentController extends ResourceController
      */
     public function update($id = null)
     {
-        $A_equipment = $this->model->find($id);
-        if (!$A_equipment) {
-            return $this->failNotFound('Equipamiento asignado no encontrado');
+        $A_material = $this->model->find($id);
+        if (!$A_material) {
+            return $this->failNotFound('Material asignado no encontrado');
         }
         $data = $this->request->getJSON(true);
         if ($this->model->update($id, $data)) {
-            return $this->respondUpdated($data, 'Equipamiento asignado actualizado.');
+            return $this->respondUpdated($data, 'Material asignado actualizado.');
         }
         return $this->failValidationErrors($this->model->errors());
     }
@@ -95,12 +95,12 @@ class AssignedEquipmentController extends ResourceController
      */
     public function delete($id = null)
     {
-        $A_equipment = $this->model->find($id);
-        if ($A_equipment) {
+        $A_material = $this->model->find($id);
+        if ($A_material) {
             $this->model->delete($id);
-            return $this->respondDeleted($A_equipment, 'Equipamiento asignado elimindo.');
+            return $this->respondDeleted($A_material, 'Material asignado elimindo.');
         }
-        return $this->failNotFound('Equipamiento asignado no encontrado.');
+        return $this->failNotFound('Material asignado no encontrado.');
 
     }
 }

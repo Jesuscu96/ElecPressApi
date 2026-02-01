@@ -8,15 +8,15 @@ class UsersModel extends Model
 {
     protected $table = "users";
     protected $primaryKey = "id";
-    protected $allowedFields = ['role', 'first_name', 'last_name', 'password', 'email', 'birth_date', 'created_at', 'phone'];
+    protected $allowedFields = ['role', 'first_name', 'last_name', 'password', 'email', 'birth_date', 'image', 'phone'];
     protected $validationRules = [
-        'role'  => 'required',
+        'role'  => 'required|in_list[superAdmin,admin,user,inactive]',
         'first_name' => 'required', 
         'last_name' => 'required', 
         'password'  => 'required|min_length[6]', 
         'email'  => 'required|valid_email', 
         'birth_date'  => 'required', 
-        'created_at'  => 'required', 
+        'image' => 'permit_empty',
         'phone'  => 'required', 
     ];
 

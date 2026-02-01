@@ -41,7 +41,7 @@ class EquipmentController extends ResourceController
         $row = $this->model->getOneWithCategory($id);
 
         if($row) {
-            $this->respond($row);
+            return $this->respond($row);
         }
         return $this->failNotFound("Equipamiento no encontrado");
     }
