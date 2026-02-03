@@ -10,6 +10,11 @@ class ProjectsModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = ['name', 'budget', 'status', 'id_client'];
+    protected array $casts = [
+        'id'        => 'integer',
+        'id_client' => 'integer',
+        'budget'    => 'float',
+    ];
 
     protected $validationRules = [
         'name' => 'required',

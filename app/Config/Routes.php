@@ -6,10 +6,12 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-$routes->resource('clients', ['controller' => 'ClientsController']); //pruebas
+$routes->resource('clients', ['controller' => 'ClientsController']); //pruebas de funcionamiento
+
 
 $routes->group('api', ['filter' => 'cors'], function($routes) {
-    $routes->resource('clients', ['controller' => 'ClientsController']); //pruebas
+    $routes->resource('projects', ['controller' => 'ProjectsController']);
+    $routes->resource('clients', ['controller' => 'ClientsController']); //pruebas de funcionamiento
     $routes->post('auth/login', 'AuthController::login');
     $routes->post('auth/register', 'AuthController::register');
 

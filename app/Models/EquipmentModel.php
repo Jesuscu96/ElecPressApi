@@ -8,10 +8,11 @@ class EquipmentModel extends Model
 {
     protected $table = "equipment";
     protected $primaryKey = "id";
-    protected $allowedFields = ['name', , 'id_category_equipment'];
+    protected $allowedFields = ['name', , 'id_category_equipment', 'image'];
     protected $validationRules = [
         'name' => 'required',
         'id_category_equipment' => 'permit_empty|integer',
+        'image' => 'permit_empty',
     ];
     public function getAllWithCategory()
     {

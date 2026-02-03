@@ -9,6 +9,10 @@ class ClientsModels extends Model
     protected $table = "clients";
     protected $primaryKey = "id";
     protected $allowedFields = ['first_name', 'last_name', 'company', 'phone', 'email'];
+    protected array $casts = [
+        'id'        => 'integer',
+        'phone' => 'integer',
+    ];
     protected $validationRules = [
         'first_name' => 'required', 
         'last_name' => 'required',

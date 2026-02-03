@@ -21,17 +21,28 @@ class AuthController extends ResourceController
 
         $email = $data['email'] ?? null;
         $password = $data['password'] ?? null;
+        $first_name = $data['first_name'] ?? '';
+        $last_name = $data['last_name'] ?? '';
+        $phone = $data['phone'] ?? null;
+        $birth_date = $data['birth_date'] ?? null;
 
-        if (!$email || !$password) {
+        if (!$email || !$password || !$first_name || !$last_name || !$phone || !$birth_date) {
             return $this->failValidationErrors([
                 'email' => 'El email es obligatorio.',
                 'password' => 'La contraseña es obligatoria.',
+                'first_name' => 'El nombre es obligatoria.',
+                'last_name' => 'El apellido es obligatoria.',
+                'phone' => 'El telefono es obligatoria.',
+                'birth_date' => 'La fecha de nacimiento es obligatoria.',
             ]);
         }
-        if (strlen(trim($password)) < 6) {
+        if (!preg_match('/^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/', $password)) {
             return $this->failValidationErrors([
-                'password' => 'La contraseña debe tener al menos 6 caracteres.',
+                'password' => 'La contraseña debe tener al menos 8 caracteres un numero y un simbolo.',
             ]);
+        }
+        if (!preg_match('/^\d{8,15}$/', (string) $phone)) {
+            return $this->failValidationErrors('El teléfono debe tener entre 8 y 15 dígitos (solo números).');
         }
 
         $users = new UsersModel();
@@ -46,9 +57,8 @@ class AuthController extends ResourceController
             'role' => $data['role'] ?? 'user',
             'first_name' => $data['first_name'] ?? '',
             'last_name' => $data['last_name'] ?? '',
-            'phone' => $data['phone'] ?? '',
+            'phone' => $data['phone'] ?? null,
             'birth_date' => $data['birth_date'] ?? null,
-            'created_at' => date('Y-m-d H:i:s'),
         ];
 
         $id = $users->insert($insertData);

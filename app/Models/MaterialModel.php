@@ -8,11 +8,13 @@ class MaterialModel extends Model
 {
     protected $table = "materials";
     protected $primaryKey = "id";
-    protected $allowedFields = ['name', 'id_category_material', 'price'];
+    protected $allowedFields = ['name', 'id_category_material', 'price', 'image'];
     protected $validationRules = [
         'name' => 'required',
         'category_id_material' => 'required|integer',
         'price' => 'required|numeric',
+        'image' => 'permit_empty',
+        
     ];
 
     public function getAllWithCategory()

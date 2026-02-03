@@ -24,7 +24,7 @@ class ProjectsController extends ResourceController
     {
         /* $proyect = $this->model->findAll();
         return $this->respond($proyect); */
-        return $this->respond($this->model->findAll());
+        return $this->respond($this->model->getAllWithClient());
 
 
     }
@@ -38,7 +38,7 @@ class ProjectsController extends ResourceController
      */
     public function show($id = null)
     {
-        $proyect = $this->model->find($id);
+        $proyect = $this->model->getOneWithClient($id);
 
         if($proyect) {
             return $this->respond($proyect);

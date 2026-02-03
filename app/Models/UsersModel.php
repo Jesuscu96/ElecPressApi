@@ -13,7 +13,7 @@ class UsersModel extends Model
         'role'  => 'required|in_list[superAdmin,admin,user,inactive]',
         'first_name' => 'required', 
         'last_name' => 'required', 
-        'password'  => 'required|min_length[6]', 
+        'password'  => 'required|min_length[8]', 
         'email'  => 'required|valid_email', 
         'birth_date'  => 'required', 
         'image' => 'permit_empty',
