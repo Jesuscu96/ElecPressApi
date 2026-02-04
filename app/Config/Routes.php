@@ -6,14 +6,21 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-$routes->resource('clients', ['controller' => 'ClientsController']); //pruebas de funcionamiento
+
 
 
 $routes->group('api', ['filter' => 'cors'], function($routes) {
-    $routes->resource('projects', ['controller' => 'ProjectsController']);
-    $routes->resource('clients', ['controller' => 'ClientsController']); //pruebas de funcionamiento
+    $routes->options('(:any)', function() { return ''; });
+    $routes->options('(:any)/(:any)', function() { return ''; });
+    $routes->options('(:any)/(:any)/(:any)', function() { return ''; });
+
+
+    //$routes->resource('clients', ['controller' => 'ClientsController']); //pruebas de funcionamiento
     $routes->post('auth/login', 'AuthController::login');
     $routes->post('auth/register', 'AuthController::register');
+    
+    
+   
 
     $routes->group('', ['filter' => 'jwt'], function($routes) {
 

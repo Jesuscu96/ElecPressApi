@@ -10,6 +10,10 @@ class ProjectUsersModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = ['project_id', 'user_id'];
+    protected array $casts = [
+        'id'        => 'integer',
+        'user_id' => 'integer',
+    ];
 
     protected $validationRules = [
         'project_id' => 'required|integer',

@@ -95,6 +95,12 @@ class ClientsController extends ResourceController
      */
     public function delete($id = null)
     {
+        $role = $this->request->jwt->role ?? null;
+
+        if ($role !== 'superAdmin') {
+            return $this->failForbidden('No tienes permisos para borrar definitivamente.');
+        }
+        
         $client = $this->model->find($id);
         if($client) {
             $this->model->delete($id);

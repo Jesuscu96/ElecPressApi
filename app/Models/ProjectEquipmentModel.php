@@ -10,7 +10,11 @@ class ProjectEquipmentModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = ['project_id', 'equipment_id', 'quantity'];
-
+    protected array $casts = [
+        'id'        => 'integer',
+        'equipment_id'        => 'integer',
+        'quantity'        => 'integer',
+    ];
     protected $validationRules = [
         'project_id'   => 'required|integer',
         'equipment_id' => 'required|integer',

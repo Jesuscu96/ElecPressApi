@@ -10,11 +10,17 @@ class ProjectMaterialsModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = ['project_id', 'material_id', 'quantity'];
+    protected array $casts = [
+        'id'        => 'integer',
+        'project_id'        => 'integer',
+        'material_id'        => 'integer',
+        'quantity'        => 'numeric',
+    ];
 
     protected $validationRules = [
         'project_id'  => 'required|integer',
         'material_id' => 'required|integer',
-        'quantity'    => 'required|numeric',
+        'quantity'    => 'required|float',
     ];
 
     public function getAllExpanded()

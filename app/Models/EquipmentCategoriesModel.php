@@ -14,4 +14,7 @@ class EquipmentCategoriesModel extends Model
     protected $validationRules = [
         'name' => 'required',
     ];
+    protected array $casts = [
+        'id'        => 'integer',
+    ];
 }

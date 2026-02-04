@@ -9,6 +9,10 @@ class UsersModel extends Model
     protected $table = "users";
     protected $primaryKey = "id";
     protected $allowedFields = ['role', 'first_name', 'last_name', 'password', 'email', 'birth_date', 'image', 'phone'];
+    protected array $casts = [
+        'id'        => 'integer',
+    ];
+    
     protected $validationRules = [
         'role'  => 'required|in_list[superAdmin,admin,user,inactive]',
         'first_name' => 'required', 

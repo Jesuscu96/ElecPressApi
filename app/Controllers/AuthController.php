@@ -57,7 +57,7 @@ class AuthController extends ResourceController
             'role' => $data['role'] ?? 'user',
             'first_name' => $data['first_name'] ?? '',
             'last_name' => $data['last_name'] ?? '',
-            'phone' => $data['phone'] ?? null,
+            'phone' => $phone,
             'birth_date' => $data['birth_date'] ?? null,
         ];
 
@@ -91,6 +91,8 @@ class AuthController extends ResourceController
 
         $users = new UsersModel();
         $user = $users->where('email', $email)->first();
+        $user['id'] = (int) $user['id'];
+
 
         if (!$user || !password_verify($password, $user['password'])) {
             return $this->failUnauthorized('Credenciales incorrectas.');
