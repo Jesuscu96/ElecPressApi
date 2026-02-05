@@ -12,12 +12,7 @@ class AuthFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        
-        if ($request->getMethod() === 'options') {
-            return;
-        }
-
-        $key = env('JWT_SECRET');
+        $key = env('JWT_SECRET'); // mejor que getenv()
 
         $authHeader = $request->getHeaderLine('Authorization');
         $token = null;
@@ -34,14 +29,16 @@ class AuthFilter implements FilterInterface
 
         try {
             $decoded = JWT::decode($token, new Key($key, 'HS256'));
+
+            // opcional: guardar decoded para usarlo luego
             $request->jwt = $decoded;
+
         } catch (\Throwable $e) {
             return service('response')
                 ->setStatusCode(401)
                 ->setJSON(['message' => 'Acceso denegado: token inválido o expirado.']);
         }
     }
-
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {

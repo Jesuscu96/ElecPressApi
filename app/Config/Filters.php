@@ -80,12 +80,11 @@ class Filters extends BaseFilters
             // 'invalidchars',
         ],
         'after' => [
-            //'toolbar',
+            'toolbar',
             // 'honeypot',
             // 'secureheaders',
         ],
     ];
-    
 
     /**
      * List of filter aliases that works on a
@@ -111,9 +110,5 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [
-        'toolbar' => [
-            'after' => ['/', 'web/*', 'admin/*']
-        ],
-    ];
+    public array $filters = [];
 }

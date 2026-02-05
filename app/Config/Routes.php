@@ -9,10 +9,10 @@ use CodeIgniter\Router\RouteCollection;
 
 
 
-$routes->group('api', function($routes) {
-    // $routes->options('(:any)', function() { return ''; });
-    // $routes->options('(:any)/(:any)', function() { return ''; });
-    // $routes->options('(:any)/(:any)/(:any)', function() { return ''; });
+$routes->group('api', ['filter' => 'cors'], function($routes) {
+    $routes->options('(:any)', function() { return ''; });
+    $routes->options('(:any)/(:any)', function() { return ''; });
+    $routes->options('(:any)/(:any)/(:any)', function() { return ''; });
 
 
     //$routes->resource('clients', ['controller' => 'ClientsController']); //pruebas de funcionamiento
