@@ -6,101 +6,96 @@ use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\UsersModel;
 
-//use function PHPUnit\Framework\returnArgument;
-
 class UsersController extends ResourceController
 {
-    //protected $modelName = "App\Models\userssModel";
-
     protected $modelName = UsersModel::class;
-
     protected $format = "json";
-    /**
-     * Return an array of resource objects, themselves in array format.
-     *
-     * @return ResponseInterface
-     */
+
     public function index()
     {
-        /* $users = $this->model->findAll();
-        return $this->respond($users); */
-        return $this->respond($this->model->findAll());
+        
+        $users = $this->model
+            ->select('id, role, first_name, last_name, email, birth_date, created_at, image, phone')
+            ->findAll();
 
-
+        return $this->respond($users);
     }
 
-    /**
-     * Return the properties of a resource object.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
     public function show($id = null)
     {
-        $users = $this->model->find($id);
+        
+        $user = $this->model
+            ->select('id, role, first_name, last_name, email, birth_date, created_at, image, phone')
+            ->find($id);
 
-        if($users) {
-            return $this->respond($users);
+        if ($user) {
+            return $this->respond($user);
         }
         return $this->failNotFound("Usuario no encontrado");
     }
 
-
-
-    /**
-     * Create a new resource object, from "posted" parameters.
-     *
-     * @return ResponseInterface
-     */
     public function create()
     {
         $data = $this->request->getJSON(true);
 
-        if($this->model->insert($data)) {
-            return $this->respondCreated($data, 'Usuario creado.');
+        
+        if (!isset($data['password']) || trim($data['password']) === '') {
+            return $this->failValidationErrors([
+                'password' => 'La contraseña es obligatoria.'
+            ]);
+        }
+
+        
+        $insertId = $this->model->insert($data, true);
+
+        if ($insertId) {
+            
+            $user = $this->model
+                ->select('id, role, first_name, last_name, email, birth_date, created_at, image, phone')
+                ->find($insertId);
+
+            return $this->respondCreated($user, 'Usuario creado.');
         }
 
         return $this->failValidationErrors($this->model->errors());
-
     }
 
-
-    /**
-     * Add or update a model resource, from "posted" properties.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
     public function update($id = null)
     {
-        $users = $this->model->find($id);
-        if(!$users) {
+        $user = $this->model->find($id);
+        if (!$user) {
             return $this->failNotFound('Usuario no encontrado');
         }
+
         $data = $this->request->getJSON(true);
-        if($this->model->update($id, $data)) {
-            return $this->respondUpdated($data, 'Usuario actualizado.');
+
+       
+        $data['id'] = (int) $id;
+
+        
+        if (isset($data['password']) && trim($data['password']) === '') {
+            unset($data['password']);
         }
+
+        if ($this->model->update($id, $data)) {
+            
+            $updated = $this->model
+                ->select('id, role, first_name, last_name, email, birth_date, created_at, image, phone')
+                ->find($id);
+
+            return $this->respondUpdated($updated, 'Usuario actualizado.');
+        }
+
         return $this->failValidationErrors($this->model->errors());
     }
 
-    /**
-     * Delete the designated resource object from the model.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
     public function delete($id = null)
     {
-        $users = $this->model->find($id);
-        if($users) {
+        $user = $this->model->find($id);
+        if ($user) {
             $this->model->delete($id);
-            return $this->respondDeleted($users, 'Usuario elimindo.');
+            return $this->respondDeleted(['id' => (int)$id], 'Usuario eliminado.');
         }
         return $this->failNotFound('Usuario no encontrado.');
-
     }
 }

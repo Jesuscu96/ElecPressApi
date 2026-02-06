@@ -19,8 +19,6 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
     $routes->post('auth/login', 'AuthController::login');
     $routes->post('auth/register', 'AuthController::register');
     
-    
-   
 
     $routes->group('', ['filter' => 'jwt'], function($routes) {
 

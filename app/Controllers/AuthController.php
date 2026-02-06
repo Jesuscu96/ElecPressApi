@@ -36,9 +36,11 @@ class AuthController extends ResourceController
                 'birth_date' => 'La fecha de nacimiento es obligatoria.',
             ]);
         }
-        if (!preg_match('/^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/', $password)) {
+
+        
+        if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/', $password)) {
             return $this->failValidationErrors([
-                'password' => 'La contraseña debe tener al menos 8 caracteres un numero y un simbolo.',
+                'password' => 'La contraseña debe tener al menos 8 caracteres un numero, un simbolo y una letra minuscula y otra mayuscula .',
             ]);
         }
         if (!preg_match('/^\d{8,15}$/', (string) $phone)) {
