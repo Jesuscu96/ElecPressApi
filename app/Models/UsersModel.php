@@ -12,6 +12,8 @@ class UsersModel extends Model
     protected array $casts = [
         'id'        => 'integer',
     ];
+    protected $beforeInsert = ['hashPassword'];
+    protected $beforeUpdate = ['hashPassword'];
     
     protected $validationRules = [
         'role'       => 'required|in_list[superAdmin,admin,user,inactive]',
