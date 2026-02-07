@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 28-01-2026 a las 22:08:42
+-- Tiempo de generación: 07-02-2026 a las 17:31:55
 -- Versión del servidor: 9.1.0
 -- Versión de PHP: 8.2.26
 
@@ -36,8 +36,25 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `phone` bigint DEFAULT NULL,
   `email` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` enum('inactive','active') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'active',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `clients`
+--
+
+INSERT INTO `clients` (`id`, `first_name`, `last_name`, `company`, `phone`, `email`, `created_at`, `status`) VALUES
+(1, 'Juan', 'García', 'HonyePop', 639136785, 'honeypop@official.com', '2023-01-10 12:50:43', 'active'),
+(2, 'María', 'Pérez', 'ElectroVal', 612345678, 'maria.perez@electroval.com', '2024-08-15 14:55:43', 'active'),
+(3, 'Carlos', 'Ruiz', 'NetPro', 69876543, 'carlos.ruiz@netpro.com', '2026-02-01 12:55:43', 'active'),
+(4, 'Pedro', 'Murcia', NULL, 633182283, 'JuanMurcia55@gmail.com', '2026-02-01 12:55:43', 'active'),
+(5, 'Lucía', 'Sánchez', 'Reformas LS', 655112233, 'lucia.sanchez@reformasls.com', '2026-02-01 10:25:49', 'active'),
+(7, 'Alberto', 'Caballero', 'RolloGroup', 655291388, 'alberto@rollogroup.com', '2026-02-05 15:01:52', 'active'),
+(8, 'Raúl', 'Tejón', 'Ecopet', 622860417, 'raultejon@ecopet.com', '2026-02-05 15:10:49', 'active'),
+(9, 'Fernando', 'Gil', NULL, 652236459, 'fernandogil41@gmail.com', '2026-02-05 15:48:43', 'inactive'),
+(10, 'Danield', 'Martínez', 'Onier', 618902837, 'danieldmartinez@onier.com', '2026-02-05 15:58:19', 'active'),
+(11, 'Ana', 'Ortiz', NULL, 635928156, 'anaortiz91@gmail.com', '2026-02-05 16:40:44', 'active');
 
 -- --------------------------------------------------------
 
@@ -50,9 +67,32 @@ CREATE TABLE IF NOT EXISTS `equipment` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `id_category_equipment` int DEFAULT NULL,
+  `image` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_category_equipment` (`id_category_equipment`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `equipment`
+--
+
+INSERT INTO `equipment` (`id`, `name`, `id_category_equipment`, `image`) VALUES
+(1, 'Taladro Eléctrico', 2, NULL),
+(2, 'Arnes', 4, NULL),
+(3, 'Radial', 2, NULL),
+(4, 'Escalera 9 metros', 3, NULL),
+(5, 'Ford Transit ', 1, NULL),
+(6, 'Peugeot Partner', 1, NULL),
+(7, 'Opel Combo', 1, NULL),
+(8, 'Fiat Dobló', 1, NULL),
+(9, 'Telurómetro', 5, NULL),
+(10, 'Tester de Cables Redes RJ45', 5, NULL),
+(11, 'Ponchadora Hidráulica-Eléctrica', 2, NULL),
+(12, 'Soldador', 2, NULL),
+(13, 'Sierra Eléctrica ', 2, NULL),
+(14, 'Generador Portátil 3kW', 7, NULL),
+(15, 'Juego de Destornilladores', 8, NULL),
+(16, 'Casco de Seguridad', 9, NULL);
 
 -- --------------------------------------------------------
 
@@ -65,7 +105,21 @@ CREATE TABLE IF NOT EXISTS `equipment_categories` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `equipment_categories`
+--
+
+INSERT INTO `equipment_categories` (`id`, `name`) VALUES
+(1, 'Vehículo'),
+(2, 'Herramientas Eléctricas '),
+(3, 'Escalera'),
+(4, 'Epis'),
+(5, 'Herramientas de Medición '),
+(7, 'Generadores'),
+(8, 'Herramientas Manuales'),
+(9, 'Equipos de Protección Extra');
 
 -- --------------------------------------------------------
 
@@ -78,11 +132,27 @@ CREATE TABLE IF NOT EXISTS `materials` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `id_category_material` int DEFAULT NULL,
-  `stock` int DEFAULT NULL,
   `price` decimal(10,2) DEFAULT NULL,
+  `image` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `materials_ibfk_1` (`id_category_material`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `materials`
+--
+
+INSERT INTO `materials` (`id`, `name`, `id_category_material`, `price`, `image`) VALUES
+(1, 'Cinta azul 20x19', 10, 3.00, NULL),
+(2, 'Cinta Marrón 20x19', 10, 3.00, NULL),
+(3, 'Cinta Gris 20x19', 10, 3.00, NULL),
+(4, 'Cinta Negra 20x19', 10, 3.00, NULL),
+(5, 'Cinta TT 20x19', 10, 3.00, NULL),
+(6, 'Tubo 20mm 30m', 1, 22.00, NULL),
+(7, 'Tubo 25mm 30m', 1, 27.00, NULL),
+(8, 'Canaleta 40x20 2m', 15, 4.50, NULL),
+(9, 'Conector Wago 221 (x10)', 16, 6.90, NULL),
+(10, 'Borne Regleta 12 polos', 17, 2.20, NULL);
 
 -- --------------------------------------------------------
 
@@ -95,7 +165,30 @@ CREATE TABLE IF NOT EXISTS `material_categories` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `material_categories`
+--
+
+INSERT INTO `material_categories` (`id`, `name`) VALUES
+(1, 'Tubo Corrugado'),
+(2, 'Tubo PVC'),
+(3, 'Tubos Acero Inoxidable '),
+(4, 'Cables unifilares'),
+(5, 'Magueras'),
+(6, 'Interruptores'),
+(7, 'Enchufes'),
+(8, 'Regletas'),
+(9, 'Bridas'),
+(10, 'Cinta Aislante'),
+(11, 'Cajas Empotrables'),
+(12, 'Cajas de Superficie'),
+(13, 'Tornilleria '),
+(14, 'Magnetotérmico'),
+(15, 'Canaleta'),
+(16, 'Conectores'),
+(17, 'Bornes');
 
 -- --------------------------------------------------------
 
@@ -113,7 +206,16 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `id_client` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_client` (`id_client`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `projects`
+--
+
+INSERT INTO `projects` (`id`, `name`, `created_at`, `budget`, `status`, `id_client`) VALUES
+(1, 'Instalación Nave Industrial', '2026-01-11 14:47:00', 12000.00, 'pending', 2),
+(2, 'Reforma Eléctrica Oficina', '2026-01-08 09:11:21', 4500.00, 'pending', 5),
+(3, 'Cableado Red Local', '2026-01-27 08:27:17', 2800.00, 'pending', 3);
 
 -- --------------------------------------------------------
 
@@ -130,7 +232,16 @@ CREATE TABLE IF NOT EXISTS `project_equipment` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_project_equipment` (`project_id`,`equipment_id`),
   KEY `equipment_id` (`equipment_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `project_equipment`
+--
+
+INSERT INTO `project_equipment` (`id`, `project_id`, `equipment_id`, `quantity`) VALUES
+(1, 2, 1, 1),
+(2, 3, 14, 1),
+(3, 1, 10, 2);
 
 -- --------------------------------------------------------
 
@@ -147,7 +258,16 @@ CREATE TABLE IF NOT EXISTS `project_materials` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_project_material` (`project_id`,`material_id`),
   KEY `project_materials_ibfk_1` (`material_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `project_materials`
+--
+
+INSERT INTO `project_materials` (`id`, `quantity`, `material_id`, `project_id`) VALUES
+(1, 3.00, 6, 1),
+(2, 4.00, 9, 3),
+(3, 4.00, 8, 2);
 
 -- --------------------------------------------------------
 
@@ -163,7 +283,16 @@ CREATE TABLE IF NOT EXISTS `project_users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_project_user` (`project_id`,`user_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `project_users`
+--
+
+INSERT INTO `project_users` (`id`, `user_id`, `project_id`) VALUES
+(1, 4, 1),
+(2, 5, 2),
+(3, 4, 3);
 
 -- --------------------------------------------------------
 
@@ -183,8 +312,25 @@ CREATE TABLE IF NOT EXISTS `users` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `image` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `phone` bigint DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `email_2` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `users`
+--
+
+INSERT INTO `users` (`id`, `role`, `first_name`, `last_name`, `password`, `email`, `birth_date`, `created_at`, `image`, `phone`) VALUES
+(1, 'superAdmin', 'Jesús', 'Clemente', '$2y$10$C54vazDiqhxcVAlyPDTcXuFMBMwm6onxL0qd3xnVloYIxW7CZCE8S', 'jclementeuroz@gmail.com', '1996-09-12', '2025-11-20 10:44:26', '', 608164665),
+(2, 'admin', 'Jose Miguel', 'López', '$2y$10$C54vazDiqhxcVAlyPDTcXuFMBMwm6onxL0qd3xnVloYIxW7CZCE8S', 'jesemiguel@elecpress.com', '1988-04-02', '2026-01-13 14:22:18', '', 638125687),
+(3, 'admin', 'Luis', 'Murcia', '$2y$10$C54vazDiqhxcVAlyPDTcXuFMBMwm6onxL0qd3xnVloYIxW7CZCE8S', 'luismur@elecpress', '1978-07-15', '2026-01-09 07:35:39', '', 639195697),
+(4, 'user', 'Antonio', 'Navarro', '$2y$10$C54vazDiqhxcVAlyPDTcXuFMBMwm6onxL0qd3xnVloYIxW7CZCE8S', 'antonionav@elecpress.com', '1974-11-13', '2026-02-01 11:27:49', '', 672158627),
+(5, 'user', 'Pablo', 'Gómez', '$2y$10$C54vazDiqhxcVAlyPDTcXuFMBMwm6onxL0qd3xnVloYIxW7CZCE8S', 'pablo.gomez@elecpress.com', '1990-03-08', '2026-02-02 15:37:41', '', 611223344),
+(6, 'admin', 'Sara', 'Linares', '$2y$10$C54vazDiqhxcVAlyPDTcXuFMBMwm6onxL0qd3xnVloYIxW7CZCE8S', 'sara.linares@elecpress.com', '1994-06-21', '2025-12-17 08:33:21', '', 622334455),
+(7, 'admin', 'David', 'Ortega', '$2y$10$C54vazDiqhxcVAlyPDTcXuFMBMwm6onxL0qd3xnVloYIxW7CZCE8S', 'david.ortega@elecpress.com', '1986-12-05', '2025-11-28 12:41:52', '', 633445566),
+(8, 'user', 'Juan', 'Perez', '$2y$10$wB7scYkBsJ7cxjKCpfPY1.gJWd4dl2d7qcKaZrKXGLPfb/szXvgmq', 'prueba6@test.com', '1992-05-11', '2026-02-03 19:01:20', NULL, 600123123),
+(9, 'user', 'Agustin', 'Montesa', '$2y$10$C54vazDiqhxcVAlyPDTcXuFMBMwm6onxL0qd3xnVloYIxW7CZCE8S', 'agustin@elecpress.com', '1979-10-01', '2026-02-03 19:10:29', NULL, 603153729);
 
 --
 -- Restricciones para tablas volcadas
