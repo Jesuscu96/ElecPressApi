@@ -5,6 +5,8 @@ namespace App\Controllers;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 use App\Models\ProjectUsersModel;
+use App\Models\ProjectsModel;
+
 
 //use function PHPUnit\Framework\returnArgument;
 
@@ -22,11 +24,13 @@ class ProjectUsersController extends ResourceController
      */
     public function index()
     {
-        /* $A_project = $this->model->findAll();
-        return $this->respond($A_project); */
+        $projectId = $this->request->getGet('project_id');
+
+        if ($projectId) {
+            return $this->respond($this->model->getAllExpandedByProject($projectId));
+        }
+
         return $this->respond($this->model->getAllExpanded());
-
-
     }
 
     /**
@@ -62,7 +66,6 @@ class ProjectUsersController extends ResourceController
         }
 
         return $this->failValidationErrors($this->model->errors());
-
     }
 
 
@@ -101,6 +104,5 @@ class ProjectUsersController extends ResourceController
             return $this->respondDeleted($A_project, 'Poryecto asignado elimindo.');
         }
         return $this->failNotFound('Poryecto asignado no encontrado.');
-
     }
 }

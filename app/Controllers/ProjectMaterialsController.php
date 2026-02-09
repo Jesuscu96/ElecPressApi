@@ -22,11 +22,16 @@ class ProjectMaterialsController extends ResourceController
      */
     public function index()
     {
-        /* $A_material = $this->model->findAll();
-        return $this->respond($A_material); */
-        return $this->respond($this->model->getAllExpanded());
 
+        $projectId = $this->request->getGet('project_id');
 
+        if ($projectId) {
+            return $this->respond(
+                $this->model->where('project_id', (int)$projectId)->findAll()
+            );
+        }
+
+        return $this->respond($this->model->findAll());
     }
 
     /**
@@ -62,7 +67,6 @@ class ProjectMaterialsController extends ResourceController
         }
 
         return $this->failValidationErrors($this->model->errors());
-
     }
 
 
@@ -101,6 +105,5 @@ class ProjectMaterialsController extends ResourceController
             return $this->respondDeleted($A_material, 'Material asignado elimindo.');
         }
         return $this->failNotFound('Material asignado no encontrado.');
-
     }
 }

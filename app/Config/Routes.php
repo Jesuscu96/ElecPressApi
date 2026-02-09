@@ -15,7 +15,7 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
     $routes->options('(:any)/(:any)/(:any)', function() { return ''; });
 
 
-    //$routes->resource('clients', ['controller' => 'ClientsController']); //pruebas de funcionamiento
+    $routes->resource('projects', ['controller' => 'ProjectsController']); //pruebas de funcionamiento
     $routes->post('auth/login', 'AuthController::login');
     $routes->post('auth/register', 'AuthController::register');
     

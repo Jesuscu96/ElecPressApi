@@ -25,8 +25,6 @@ class ProjectsController extends ResourceController
         /* $proyect = $this->model->findAll();
         return $this->respond($proyect); */
         return $this->respond($this->model->getAllWithClient());
-
-
     }
 
     /**
@@ -40,7 +38,7 @@ class ProjectsController extends ResourceController
     {
         $proyect = $this->model->getOneWithClient($id);
 
-        if($proyect) {
+        if ($proyect) {
             return $this->respond($proyect);
         }
         return $this->failNotFound("Proyecto no encontrado");
@@ -57,12 +55,16 @@ class ProjectsController extends ResourceController
     {
         $data = $this->request->getJSON(true);
 
-        if($this->model->insert($data)) {
-            return $this->respondCreated($data, 'Proyecto creado.');
+        $id = $this->model->insert($data, true);
+
+        if ($id) {
+            
+            $row = $this->model->getOneWithClient($id);
+            return $this->respondCreated($row, 'Proyecto creado.');
         }
 
-        return $this->failValidationErrors($this->model->errors());
 
+        return $this->failValidationErrors($this->model->errors());
     }
 
 
@@ -76,11 +78,11 @@ class ProjectsController extends ResourceController
     public function update($id = null)
     {
         $proyect = $this->model->find($id);
-        if(!$proyect) {
+        if (!$proyect) {
             return $this->failNotFound('Proyecto no encontrado');
         }
         $data = $this->request->getJSON(true);
-        if($this->model->update($id, $data)) {
+        if ($this->model->update($id, $data)) {
             return $this->respondUpdated($data, 'Proyecto actualizado.');
         }
         return $this->failValidationErrors($this->model->errors());
@@ -96,11 +98,10 @@ class ProjectsController extends ResourceController
     public function delete($id = null)
     {
         $proyect = $this->model->find($id);
-        if($proyect) {
+        if ($proyect) {
             $this->model->delete($id);
             return $this->respondDeleted($proyect, 'Proyecto elimindo.');
         }
         return $this->failNotFound('Proyecto no encontrado.');
-
     }
 }
