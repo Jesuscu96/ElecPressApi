@@ -14,14 +14,8 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
     $routes->options('(:any)/(:any)', function() { return ''; });
     $routes->options('(:any)/(:any)/(:any)', function() { return ''; });
 
-
-<<<<<<< HEAD
-    $routes->resource('projects', ['controller' => 'ProjectsController']); //pruebas de funcionamiento
-=======
-    
     $routes->resource('projects', ['controller' => 'ProjectsController']); //pruebas de funcionamiento
 
->>>>>>> 44c7415ff90df18a7b7d75e224da413da8397683
     $routes->post('auth/login', 'AuthController::login');
     $routes->post('auth/register', 'AuthController::register');
     
@@ -49,4 +43,4 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
 
 
 
-//$routes->get('/clients', 'ClientsController::index');
+

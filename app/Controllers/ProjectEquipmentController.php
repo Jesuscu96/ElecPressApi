@@ -22,10 +22,13 @@ class ProjectEquipmentController extends ResourceController
      */
     public function index()
     {
-        /* $A_equipment = $this->model->findAll();
-        return $this->respond($A_equipment); */
-        return $this->respond($this->model->getAllExpanded());
+        $projectId = $this->request->getGet('project_id');
 
+        if ($projectId) {
+            return $this->respond($this->model->getAllExpandedByProject((int) $projectId));
+        }
+
+        return $this->respond($this->model->getAllExpanded());
 
     }
 
@@ -56,6 +59,30 @@ class ProjectEquipmentController extends ResourceController
     public function create()
     {
         $data = $this->request->getJSON(true);
+        if (isset($data['quantity'])) {
+            $data['quantity'] = (int) $data['quantity'];
+        }
+
+        // si hay ya equipamiento lo sumo y no duplico si no lo creo 
+        $exists = $this->model 
+            ->where('project_id', (int) $data['project_id'])
+            ->where('equipment_id', (int) $data['equipment_id'])
+            ->first();
+
+        
+        if ($exists) {
+            $oldQty = (int) $exists['quantity'];
+            $addQty = (int) $data['quantity']; 
+            $newQty = $oldQty + $addQty;
+
+            if ($this->model->update($exists['id'], ['quantity' => $newQty])) {
+                $row = $this->model->getOneExpanded($exists['id']);
+                return $this->respondUpdated($row, 'Cantidad sumada correctamente.');
+            }
+
+            return $this->failValidationErrors($this->model->errors());
+        }
+
 
         if ($this->model->insert($data)) {
             return $this->respondCreated($data, 'Equipamiento asignado creado.');

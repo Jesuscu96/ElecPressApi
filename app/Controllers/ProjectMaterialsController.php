@@ -27,7 +27,7 @@ class ProjectMaterialsController extends ResourceController
 
         if ($projectId) {
             return $this->respond(
-                $this->model->where('project_id', (int)$projectId)->findAll()
+                $this->model->where('project_id', (int) $projectId)->findAll()
             );
         }
 
@@ -61,6 +61,36 @@ class ProjectMaterialsController extends ResourceController
     public function create()
     {
         $data = $this->request->getJSON(true);
+        if (isset($data['quantity'])) {
+            $data['quantity'] = (float) $data['quantity'];
+        }
+
+        //  evito duplicados igual que equipment y sumo cantidades  
+        if (!isset($data['quantity'])) {
+            return $this->failValidationErrors(['quantity' => 'La cantidad debe ser mayor que 0']);
+        }
+
+
+        $exists = $this->model
+            ->where('project_id', (int) $data['project_id'])
+            ->where('material_id', (int) $data['material_id'])
+            ->first();
+
+
+        if ($exists) {
+            $oldQty = (float) $exists['quantity'];
+            $addQty = (float) $data['quantity'];
+            $newQty = round($oldQty + $addQty, 2); //me aseguro 2 decimales 
+
+            if ($this->model->update($exists['id'], ['quantity' => $newQty])) {
+                $row = $this->model->getOneExpanded($exists['id']);
+                return $this->respondUpdated($row, 'Cantidad sumada correctamente.');
+            }
+
+            return $this->failValidationErrors($this->model->errors());
+        }
+
+
 
         if ($this->model->insert($data)) {
             return $this->respondCreated($data, 'Material asignado creado.');

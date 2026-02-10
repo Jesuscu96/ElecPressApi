@@ -61,6 +61,8 @@ class ProjectUsersController extends ResourceController
     {
         $data = $this->request->getJSON(true);
 
+        
+
         if ($this->model->insert($data)) {
             return $this->respondCreated($data, 'Poryecto asignado creado.');
         }
