@@ -14,7 +14,7 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
     $routes->options('(:any)/(:any)', function() { return ''; });
     $routes->options('(:any)/(:any)/(:any)', function() { return ''; });
 
-    $routes->resource('projects', ['controller' => 'ProjectsController']); //pruebas de funcionamiento
+    $routes->resource('project-users', ['controller' => 'ProjectUsersController']); //pruebas de funcionamiento
 
     $routes->post('auth/login', 'AuthController::login');
     $routes->post('auth/register', 'AuthController::register');
@@ -35,9 +35,9 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
         $routes->resource('equipment-categories', ['controller' => 'EquipmentCategoriesController']);
 
         
-        $routes->resource('project-users',      ['controller' => 'ProjectUsersController']);
-        $routes->resource('project-materials',  ['controller' => 'ProjectMaterialsController']);
-        $routes->resource('project-equipment',  ['controller' => 'ProjectEquipmentController']);
+        $routes->resource('project-users', ['controller' => 'ProjectUsersController']);
+        $routes->resource('project-materials', ['controller' => 'ProjectMaterialsController']);
+        $routes->resource('project-equipment', ['controller' => 'ProjectEquipmentController']);
     });
 });
 

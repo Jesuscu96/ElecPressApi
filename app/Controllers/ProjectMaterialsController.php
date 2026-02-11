@@ -22,17 +22,15 @@ class ProjectMaterialsController extends ResourceController
      */
     public function index()
     {
+        $idProject = $this->request->getGet('id_project');
 
-        $projectId = $this->request->getGet('project_id');
-
-        if ($projectId) {
-            return $this->respond(
-                $this->model->where('project_id', (int) $projectId)->findAll()
-            );
+        if ($idProject) {
+            return $this->respond($this->model->getAllExpanded((int) $idProject));
         }
 
-        return $this->respond($this->model->findAll());
+        return $this->respond($this->model->getAllExpanded());
     }
+
 
     /**
      * Return the properties of a resource object.

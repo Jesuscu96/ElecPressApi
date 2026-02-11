@@ -23,36 +23,44 @@ class ProjectMaterialsModel extends Model
         'quantity' => 'required|float',
     ];
 
-    public function getAllExpanded()
-    {
-        return $this->select("
-                project_materials.id,
-                project_materials.project_id,
-                projects.name as project_name,
-                project_materials.material_id,
-                materials.name as material_name,
-                project_materials.quantity
-            ")
-            ->join('projects', 'projects.id = project_materials.project_id', 'left')
-            ->join('materials', 'materials.id = project_materials.material_id', 'left')
-            ->findAll();
-    }
-    public function getAllExpandedByProject($projectId)
-    {
-        return $this->select("
+    public function getAllExpanded($idProject = null)
+{
+    $builder = $this->select("
             project_materials.id,
             project_materials.project_id,
             projects.name as project_name,
             project_materials.material_id,
             materials.name as material_name,
             materials.image as material_image,
-            project_materials.quantity
+            project_materials.quantity as material_quantity
         ")
-            ->join('projects', 'projects.id = project_materials.project_id', 'left')
-            ->join('materials', 'materials.id = project_materials.material_id', 'left')
-            ->where('project_materials.project_id', $projectId)
-            ->findAll();
+        ->join('projects', 'projects.id = project_materials.project_id', 'left')
+        ->join('materials', 'materials.id = project_materials.material_id', 'left');
+
+    if ($idProject !== null) {
+        $builder->where('project_materials.project_id', (int)$idProject);
     }
+
+    return $builder->findAll();
+}
+
+    // public function getAllExpandedByProject($projectId)
+    // {
+    //     return $this->select("
+    //         project_materials.id,
+    //         project_materials.project_id,
+    //         projects.name as project_name,
+    //         project_materials.material_id,
+    //         materials.name as material_name,
+    //         materials.image as material_image,
+            
+    //         project_materials.quantity
+    //     ")
+    //         ->join('projects', 'projects.id = project_materials.project_id', 'left')
+    //         ->join('materials', 'materials.id = project_materials.material_id', 'left')
+    //         ->where('project_materials.project_id', $projectId)
+    //         ->findAll();
+    // }
 
 
     public function getOneExpanded($id)
@@ -63,6 +71,8 @@ class ProjectMaterialsModel extends Model
                 projects.name as project_name,
                 project_materials.material_id,
                 materials.name as material_name,
+                materials.image as material_image,
+                materials.id_category_material  as material_id_category,
                 project_materials.quantity
             ")
             ->join('projects', 'projects.id = project_materials.project_id', 'left')

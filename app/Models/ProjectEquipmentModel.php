@@ -23,13 +23,14 @@ class ProjectEquipmentModel extends Model
 
     public function getAllExpanded()
     {
-        return $this->select("
+        return $this->select(" 	
                 project_equipment.id,
                 project_equipment.project_id,
                 projects.name as project_name,
                 project_equipment.equipment_id,
                 equipment.name as equipment_name,
                 equipment.image as equipment_image,
+                equipment.id_category_equipment as equipment_id_category,
                 project_equipment.quantity
             ")
             ->join('projects', 'projects.id = project_equipment.project_id', 'left')
@@ -60,6 +61,7 @@ class ProjectEquipmentModel extends Model
                 project_equipment.equipment_id,
                 equipment.name as equipment_name,
                 equipment.image as equipment_image,
+                equipment.id_category_equipment as equipment_id_category,
                 project_equipment.quantity
             ")
             ->join('projects', 'projects.id = project_equipment.project_id', 'left')
