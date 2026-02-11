@@ -80,7 +80,7 @@ class UsersController extends ResourceController
         if ($this->model->update($id, $data)) {
             
             $updated = $this->model
-                ->select('id, role, first_name, last_name, email, birth_date, created_at, image, phone')
+                ->select('id, role, first_name, last_name, email, birth_date, image, phone')
                 ->find($id);
 
             return $this->respondUpdated($updated, 'Usuario actualizado.');
