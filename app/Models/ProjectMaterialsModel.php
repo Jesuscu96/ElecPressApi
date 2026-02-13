@@ -32,7 +32,8 @@ class ProjectMaterialsModel extends Model
             project_materials.material_id,
             materials.name as material_name,
             materials.image as material_image,
-            project_materials.quantity as material_quantity
+            project_materials.quantity as material_quantity,
+            materials.id_category_material  as material_id_category
         ")
             ->join('projects', 'projects.id = project_materials.project_id', 'left')
             ->join('materials', 'materials.id = project_materials.material_id', 'left');
@@ -72,8 +73,8 @@ class ProjectMaterialsModel extends Model
                 project_materials.material_id,
                 materials.name as material_name,
                 materials.image as material_image,
-                materials.id_category_material  as material_id_category,
-                project_materials.quantity
+                project_materials.quantity,
+                materials.id_category_material  as material_id_category
             ")
             ->join('projects', 'projects.id = project_materials.project_id', 'left')
             ->join('materials', 'materials.id = project_materials.material_id', 'left')
