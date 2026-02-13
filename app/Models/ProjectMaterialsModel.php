@@ -24,8 +24,8 @@ class ProjectMaterialsModel extends Model
     ];
 
     public function getAllExpanded($idProject = null)
-{
-    $builder = $this->select("
+    {
+        $builder = $this->select("
             project_materials.id,
             project_materials.project_id,
             projects.name as project_name,
@@ -34,15 +34,15 @@ class ProjectMaterialsModel extends Model
             materials.image as material_image,
             project_materials.quantity as material_quantity
         ")
-        ->join('projects', 'projects.id = project_materials.project_id', 'left')
-        ->join('materials', 'materials.id = project_materials.material_id', 'left');
+            ->join('projects', 'projects.id = project_materials.project_id', 'left')
+            ->join('materials', 'materials.id = project_materials.material_id', 'left');
 
-    if ($idProject !== null) {
-        $builder->where('project_materials.project_id', (int)$idProject);
+        if ($idProject !== null) {
+            $builder->where('project_materials.project_id', (int) $idProject);
+        }
+
+        return $builder->findAll();
     }
-
-    return $builder->findAll();
-}
 
     // public function getAllExpandedByProject($projectId)
     // {
@@ -53,7 +53,7 @@ class ProjectMaterialsModel extends Model
     //         project_materials.material_id,
     //         materials.name as material_name,
     //         materials.image as material_image,
-            
+
     //         project_materials.quantity
     //     ")
     //         ->join('projects', 'projects.id = project_materials.project_id', 'left')
