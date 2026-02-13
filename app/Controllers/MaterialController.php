@@ -38,7 +38,7 @@ class MaterialController extends ResourceController
      */
     public function show($id = null)
     {
-        $material = $this->model->find($id);
+        $material = $this->model->getOneWithCategory($id);
 
         if ($material) {
             return $this->respond($material);
