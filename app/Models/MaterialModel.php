@@ -10,8 +10,9 @@ class MaterialModel extends Model
     protected $primaryKey = "id";
     protected $allowedFields = ['name', 'id_category_material', 'price', 'image'];
     protected array $casts = [
-        'id'        => 'integer',
-        'id_category_material'        => 'integer',
+        'id' => 'integer',
+        'id_category_material' => 'integer',
+        'price' => 'float',
     ];
     protected $validationRules = [
         'name' => 'required',

@@ -24,7 +24,7 @@ class MaterialController extends ResourceController
     {
         /* $material = $this->model->findAll();
         return $this->respond($material); */
-        return $this->respond($this->model->findAll());
+        return $this->respond($this->model->getAllWithCategory());
 
 
     }
