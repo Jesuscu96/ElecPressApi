@@ -23,7 +23,7 @@ class ProjectMaterialsModel extends Model
     protected $validationRules = [
         'project_id' => 'required|integer',
         'material_id' => 'required|integer',
-        'quantity' => 'required|float',
+        'quantity' => 'required|numeric',
     ];
 
     public function getAllExpanded($idProject = null)
