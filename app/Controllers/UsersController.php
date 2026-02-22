@@ -68,6 +68,9 @@ class UsersController extends ResourceController
         }
 
         $data = $this->request->getJSON(true);
+        if (!is_array($data)) {
+            $data = [];
+        }
 
        
         $data['id'] = (int) $id;

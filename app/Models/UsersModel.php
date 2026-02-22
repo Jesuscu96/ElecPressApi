@@ -16,7 +16,8 @@ class UsersModel extends Model
     protected $beforeUpdate = ['hashPassword'];
     
     protected $validationRules = [
-        'role'       => 'required|in_list[superAdmin,admin,user,inactive]',
+        'id'         => 'permit_empty|integer',
+        'role'       => 'required|in_list[superAdmin, admin, user, inactive]',
         'first_name' => 'required',
         'last_name'  => 'required',
         'email'      => 'required|valid_email|is_unique[users.email,id,{id}]',

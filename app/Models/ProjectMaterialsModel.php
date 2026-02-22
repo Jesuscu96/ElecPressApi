@@ -17,7 +17,7 @@ class ProjectMaterialsModel extends Model
         'quantity' => 'float',
         'material_id_category' => 'integer',
         'material_quantity' => 'float'
-        
+
     ];
 
     protected $validationRules = [

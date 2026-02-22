@@ -104,7 +104,7 @@ class AuthController extends ResourceController
             'iss' => 'elecpress',
             'aud' => 'elecpress',
             'iat' => time(),
-            'exp' => time() + 3600,
+            'exp' => time() + 7200,
             'sub' => $user['id'],
             'email' => $user['email'],
             'role' => $user['role'] ?? 'user',

@@ -24,10 +24,10 @@ class ProjectUsersController extends ResourceController
      */
     public function index()
     {
-        $projectId = $this->request->getGet('project_id');
+        $projectId = $this->request->getGet('id_project');
 
         if ($projectId) {
-            return $this->respond($this->model->getAllExpandedByProject($projectId));
+            return $this->respond($this->model->getAllExpanded((int) $projectId));
         }
 
         return $this->respond($this->model->getAllExpanded());

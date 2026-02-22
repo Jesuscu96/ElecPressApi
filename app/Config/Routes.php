@@ -14,8 +14,6 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
     $routes->options('(:any)/(:any)', function() { return ''; });
     $routes->options('(:any)/(:any)/(:any)', function() { return ''; });
 
-    $routes->resource('materials', ['controller' => 'MaterialController']); //pruebas de funcionamiento
-
     $routes->post('auth/login', 'AuthController::login');
     $routes->post('auth/register', 'AuthController::register');
     
